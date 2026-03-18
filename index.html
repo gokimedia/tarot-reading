@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Yes or No Tarot Reading Online | Deckaura</title>
+  <meta name="description" content="Free yes or no tarot reading online. Draw a card and get an instant yes, no, or maybe answer. All 78 tarot card meanings included. By Deckaura.">
+  <meta name="keywords" content="yes or no tarot, free tarot reading, tarot yes no, yes or no oracle, free yes or no tarot, tarot reading online">
+  <link rel="canonical" href="https://gokimedia.github.io/tarot-reading/">
+
+  <meta property="og:title" content="Free Yes or No Tarot Reading Online">
+  <meta property="og:description" content="Draw a tarot card and get an instant yes, no, or maybe answer. Free online tarot reading tool by Deckaura.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gokimedia.github.io/tarot-reading/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Yes or No Tarot Reading Online">
+  <meta name="twitter:description" content="Draw a card, get your answer. Free yes or no tarot reading.">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f0a1e 0%, #1a1040 40%, #2d1b69 100%);
+      color: #e2e0f0;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    .hero h1 {
+      font-size: 2em;
+      background: linear-gradient(135deg, #c4b5fd, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #a78bfa;
+      font-size: 1.1em;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .app {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .question-area {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .question-area input {
+      width: 100%;
+      max-width: 500px;
+      padding: 14px 24px;
+      border-radius: 30px;
+      border: 2px solid rgba(167,139,250,0.3);
+      background: rgba(255,255,255,0.05);
+      color: #e2e0f0;
+      font-size: 1em;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .question-area input:focus {
+      border-color: #7c3aed;
+    }
+
+    .question-area input::placeholder { color: #6b6190; }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .reading-card {
+      width: 140px;
+      height: 230px;
+      perspective: 1000px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .reading-card:hover { transform: translateY(-5px); }
+
+    .reading-card .inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+      transform-style: preserve-3d;
+    }
+
+    .reading-card.flipped .inner { transform: rotateY(180deg); }
+
+    .reading-card .front, .reading-card .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reading-card .front {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      border: 2px solid #4c1d95;
+      gap: 10px;
+    }
+
+    .reading-card .front .num { font-size: 1.5em; color: #a78bfa; }
+    .reading-card .front .label { font-size: 0.75em; color: #7c6faa; letter-spacing: 2px; text-transform: uppercase; }
+
+    .reading-card .back {
+      background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+      border: 2px solid #c4b5fd;
+      transform: rotateY(180deg);
+      padding: 15px 10px;
+      color: #1e1b4b;
+      text-align: center;
+    }
+
+    .reading-card .back .emoji { font-size: 1.8em; margin-bottom: 5px; }
+    .reading-card .back .name { font-size: 0.85em; font-weight: 700; color: #4c1d95; margin-bottom: 3px; }
+    .reading-card .back .keyword { font-size: 0.7em; color: #6d28d9; font-style: italic; margin-bottom: 5px; }
+
+    .answer-badge {
+      display: inline-block;
+      padding: 3px 14px;
+      border-radius: 15px;
+      font-size: 0.75em;
+      font-weight: 700;
+    }
+
+    .answer-badge.yes { background: #dcfce7; color: #166534; }
+    .answer-badge.no { background: #fee2e2; color: #991b1b; }
+    .answer-badge.maybe { background: #fef9c3; color: #854d0e; }
+
+    .result-area {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+      animation: fadeUp 0.5s ease;
+    }
+
+    .result-area.visible { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(167,139,250,0.2);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .result-box h3 { color: #c4b5fd; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .result-box p { color: #d1d0e0; font-size: 0.9em; line-height: 1.6; }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9em;
+      font-weight: 500;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: white;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(124,58,237,0.4); }
+
+    .btn-outline {
+      background: transparent;
+      color: #a78bfa;
+      border: 1px solid rgba(167,139,250,0.3);
+    }
+
+    .btn-outline:hover { background: rgba(167,139,250,0.1); }
+
+    .spread-select {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .spread-select button {
+      padding: 8px 20px;
+      margin: 5px;
+      border-radius: 20px;
+      border: 1px solid rgba(167,139,250,0.3);
+      background: transparent;
+      color: #a78bfa;
+      cursor: pointer;
+      font-size: 0.85em;
+      transition: all 0.2s;
+    }
+
+    .spread-select button.active {
+      background: #7c3aed;
+      color: white;
+      border-color: #7c3aed;
+    }
+
+    .spread-select button:hover { background: rgba(167,139,250,0.15); }
+
+    .how-to {
+      max-width: 700px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .how-to h2 {
+      color: #c4b5fd;
+      font-size: 1.4em;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .how-to-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .how-to-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(167,139,250,0.15);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .how-to-item h3 { color: #a78bfa; font-size: 0.9em; margin-bottom: 8px; }
+    .how-to-item p { color: #8b85a8; font-size: 0.85em; line-height: 1.5; }
+
+    .faq { max-width: 700px; margin: 40px auto; padding: 0 20px; }
+    .faq h2 { color: #c4b5fd; font-size: 1.4em; text-align: center; margin-bottom: 25px; }
+
+    .faq-item { margin-bottom: 15px; }
+    .faq-item h3 { color: #a78bfa; font-size: 0.95em; margin-bottom: 5px; }
+    .faq-item p { color: #8b85a8; font-size: 0.85em; line-height: 1.6; }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(167,139,250,0.1);
+      margin-top: 50px;
+    }
+
+    footer a { color: #7c6faa; text-decoration: none; margin: 0 10px; font-size: 0.85em; }
+    footer a:hover { color: #a78bfa; }
+    footer .brand { color: #a78bfa; font-weight: 600; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.5em; }
+      .result-grid { grid-template-columns: 1fr; }
+      .how-to-grid { grid-template-columns: 1fr; }
+      .reading-card { width: 110px; height: 185px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>Free Yes or No Tarot Reading</h1>
+    <p>Ask a question, draw a card, and receive your answer from the universe</p>
+  </div>
+
+  <div class="app">
+    <div class="question-area">
+      <input type="text" id="question" placeholder="Type your yes or no question here..." autofocus>
+    </div>
+
+    <div class="spread-select">
+      <button class="active" onclick="setSpread(1)">Single Card</button>
+      <button onclick="setSpread(3)">Three Cards</button>
+    </div>
+
+    <div class="card-container" id="cardContainer"></div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="drawBtn" onclick="drawCards()">Draw Your Card</button>
+    </div>
+
+    <div class="result-area" id="resultArea">
+      <div id="resultContent"></div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="resetReading()">Ask Another Question</button>
+        <a href="https://deckaura.com/blogs/guide/yes-or-no-tarot" target="_blank" class="btn btn-outline">Full Yes/No Guide</a>
+        <a href="https://deckaura.com/collections/yes-or-no-oracle" target="_blank" class="btn btn-outline">Get Your Own Deck</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="how-to">
+    <h2>How to Do a Yes or No Tarot Reading</h2>
+    <div class="how-to-grid">
+      <div class="how-to-item">
+        <h3>1. Ask a Clear Question</h3>
+        <p>Frame your question so it can be answered with yes or no. Be specific. Instead of "Will I be happy?" ask "Will accepting this job bring fulfillment?"</p>
+      </div>
+      <div class="how-to-item">
+        <h3>2. Focus Your Intention</h3>
+        <p>Take a breath and concentrate on your question. The clearer your focus, the more meaningful the card's message will be.</p>
+      </div>
+      <div class="how-to-item">
+        <h3>3. Draw Your Card</h3>
+        <p>Click to reveal your card. Each of the 78 tarot cards carries a yes, no, or maybe energy based on centuries of tarot tradition.</p>
+      </div>
+      <div class="how-to-item">
+        <h3>4. Read the Answer</h3>
+        <p>Your card will show a clear yes, no, or maybe answer plus deeper guidance about your situation including love and career insights.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>Is this yes or no tarot reading accurate?</h3>
+      <p>Online tarot tools provide guidance based on traditional card meanings assigned over centuries. For the most personal readings, we recommend using a physical tarot deck. Browse our <a href="https://deckaura.com/collections/tarot-decks" style="color:#a78bfa">tarot deck collection</a> or try a dedicated <a href="https://deckaura.com/collections/yes-or-no-oracle" style="color:#a78bfa">yes or no oracle deck</a>.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How many cards are in a tarot deck?</h3>
+      <p>A standard tarot deck contains 78 cards: 22 Major Arcana and 56 Minor Arcana. This tool includes all 78 with complete meanings. Learn more in our <a href="https://deckaura.com/blogs/guide/tarot-card-meanings" style="color:#a78bfa">complete tarot card meanings guide</a>.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the difference between oracle cards and tarot?</h3>
+      <p>Tarot follows a fixed 78-card structure. Oracle cards are more flexible with no set rules. Both are powerful divination tools. Read our <a href="https://deckaura.com/blogs/guide/what-are-oracle-cards" style="color:#a78bfa">what are oracle cards guide</a> for a complete comparison.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I do a yes or no reading with oracle cards?</h3>
+      <p>Yes! Dedicated <a href="https://deckaura.com/collections/yes-or-no-oracle" style="color:#a78bfa">yes or no oracle decks</a> make it even simpler because each card is explicitly labeled yes, no, or maybe. No interpretation needed.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div style="margin-bottom:15px">
+      <a href="https://deckaura.com" class="brand">Deckaura</a>
+    </div>
+    <a href="https://deckaura.com/collections/oracle-cards">Oracle Cards</a>
+    <a href="https://deckaura.com/collections/tarot-decks">Tarot Decks</a>
+    <a href="https://deckaura.com/collections/yes-or-no-oracle">Yes or No Oracle</a>
+    <a href="https://deckaura.com/blogs/guide/tarot-card-meanings">All 78 Meanings</a>
+    <a href="https://deckaura.com/blogs/guide/best-tarot-cards">Best Tarot Cards</a>
+    <a href="https://deckaura.com/collections/love-oracle-cards">Love Oracle</a>
+    <a href="https://deckaura.com/collections/angel-oracle-cards">Angel Cards</a>
+  </footer>
+
+  <script>
+const CARDS=[{name:"The Fool",emoji:"🃏",keyword:"New Beginnings",upright:"New beginnings, innocence, spontaneity",reversed:"Recklessness, risk-taking, holding back",love:"Exciting new romance or fresh chapter",career:"New job or career change ahead",yesNo:"yes",short:"A fresh start awaits. Take the leap of faith."},{name:"The Magician",emoji:"🎩",keyword:"Manifestation",upright:"Manifestation, resourcefulness, power",reversed:"Manipulation, poor planning, untapped talents",love:"Magnetic attraction, using charm wisely",career:"Skill mastery, new opportunity",yesNo:"yes",short:"You have all the tools you need."},{name:"The High Priestess",emoji:"🌙",keyword:"Intuition",upright:"Intuition, sacred knowledge, divine feminine",reversed:"Secrets, withdrawal, disconnected",love:"Mystery, unspoken feelings, deep bond",career:"Trust gut feelings, hidden info at play",yesNo:"maybe",short:"Trust your inner voice. Hidden knowledge surfaces."},{name:"The Empress",emoji:"👑",keyword:"Abundance",upright:"Femininity, beauty, nurturing, abundance",reversed:"Creative block, dependence, emptiness",love:"Fertile love, deepening romance",career:"Creative projects flourish",yesNo:"yes",short:"Abundance flows to you. Nurture what you love."},{name:"The Emperor",emoji:"🏛️",keyword:"Authority",upright:"Authority, structure, stability",reversed:"Domination, excessive control",love:"Stable committed relationship",career:"Leadership role, organizational success",yesNo:"yes",short:"Take charge with confidence."},{name:"The Hierophant",emoji:"📿",keyword:"Tradition",upright:"Spiritual wisdom, tradition, conformity",reversed:"Personal beliefs, challenging status quo",love:"Commitment, marriage, conventional path",career:"Mentorship, traditional career",yesNo:"maybe",short:"Seek wisdom from established traditions."},{name:"The Lovers",emoji:"💕",keyword:"Love",upright:"Love, harmony, relationships, choices",reversed:"Self-love needed, disharmony",love:"Deep soul connection, soulmate energy",career:"Partnership opportunity",yesNo:"yes",short:"A meaningful connection presents itself."},{name:"The Chariot",emoji:"⚔️",keyword:"Victory",upright:"Control, willpower, success, determination",reversed:"Self-discipline lacking, opposition",love:"Pursuing love with determination",career:"Career victory, promotion",yesNo:"yes",short:"Victory through determination."},{name:"Strength",emoji:"🦁",keyword:"Courage",upright:"Strength, courage, compassion",reversed:"Inner strength lacking, self-doubt",love:"Patient love, emotional strength",career:"Quiet confidence wins",yesNo:"yes",short:"Gentle courage conquers all."},{name:"The Hermit",emoji:"🔦",keyword:"Reflection",upright:"Soul searching, introspection, inner guidance",reversed:"Isolation, loneliness, withdrawal",love:"Time alone needed for clarity",career:"Seeking deeper purpose",yesNo:"no",short:"Step back and reflect. Answers are within."},{name:"Wheel of Fortune",emoji:"🎡",keyword:"Destiny",upright:"Good luck, karma, life cycles, destiny",reversed:"Bad luck, resistance to change",love:"Fated meeting, relationship turning point",career:"Lucky break, unexpected opportunity",yesNo:"yes",short:"The wheel turns in your favor."},{name:"Justice",emoji:"⚖️",keyword:"Truth",upright:"Justice, fairness, truth, cause and effect",reversed:"Unfairness, lack of accountability",love:"Fair and balanced relationship",career:"Legal matters, fair outcome",yesNo:"maybe",short:"Truth and fairness prevail."},{name:"The Hanged Man",emoji:"🙃",keyword:"Surrender",upright:"Pause, surrender, new perspectives",reversed:"Delays, resistance, indecision",love:"See relationship from new angle",career:"Career pause needed",yesNo:"maybe",short:"Let go and see things differently."},{name:"Death",emoji:"🦋",keyword:"Transformation",upright:"Endings, change, transformation",reversed:"Resistance to change, inner purging",love:"Relationship transformation",career:"Career ending leading to new beginning",yesNo:"no",short:"Something ends so something new can begin."},{name:"Temperance",emoji:"☯️",keyword:"Balance",upright:"Balance, moderation, patience",reversed:"Imbalance, excess, realignment",love:"Balanced partnership, patience",career:"Work-life balance needed",yesNo:"maybe",short:"Find your balance. Patience leads to harmony."},{name:"The Devil",emoji:"😈",keyword:"Shadow",upright:"Shadow self, attachment, addiction",reversed:"Releasing limiting beliefs, detachment",love:"Intense passion, possible co-dependency",career:"Feeling trapped at work",yesNo:"no",short:"Break free from what binds you."},{name:"The Tower",emoji:"⚡",keyword:"Upheaval",upright:"Sudden change, upheaval, revelation",reversed:"Fear of change, averting disaster",love:"Relationship shakeup, truth revealed",career:"Sudden change leading to better path",yesNo:"no",short:"False foundations must fall. Rebuild stronger."},{name:"The Star",emoji:"⭐",keyword:"Hope",upright:"Hope, faith, renewal, spirituality",reversed:"Lack of faith, despair",love:"Renewed hope in love, healing",career:"Inspiration returns, dream aligning",yesNo:"yes",short:"Hope shines after darkness. Healing awaits."},{name:"The Moon",emoji:"🌕",keyword:"Illusion",upright:"Illusion, fear, subconscious, intuition",reversed:"Release of fear, repressed emotion",love:"Confusion, hidden feelings, trust your gut",career:"Unclear situation, deception possible",yesNo:"no",short:"Not everything is as it seems."},{name:"The Sun",emoji:"☀️",keyword:"Joy",upright:"Positivity, fun, warmth, success",reversed:"Feeling down, overly optimistic",love:"Joyful love, radiant attraction",career:"Success, recognition, achievement",yesNo:"yes",short:"Pure joy and success radiate your way!"},{name:"Judgement",emoji:"📯",keyword:"Rebirth",upright:"Rebirth, inner calling, absolution",reversed:"Self-doubt, ignoring the call",love:"Relationship renewal, second chances",career:"Career calling, new chapter",yesNo:"yes",short:"Answer your higher calling."},{name:"The World",emoji:"🌍",keyword:"Completion",upright:"Completion, accomplishment, travel",reversed:"Seeking closure, delays",love:"Fulfilled love, life partner",career:"Goal achieved, project completion",yesNo:"yes",short:"Wholeness achieved. Celebrate!"},
+{name:"Ace of Wands",emoji:"🔥",keyword:"Spark",upright:"Inspiration, new opportunity",reversed:"Delays, creative blocks",love:"New passionate attraction",career:"New venture, inspired action",yesNo:"yes",short:"A spark of creative energy ignites."},{name:"Two of Wands",emoji:"🗺️",keyword:"Planning",upright:"Future planning, decisions",reversed:"Fear of unknown, playing safe",love:"Planning future together",career:"Business expansion decisions",yesNo:"yes",short:"Plan your next big move."},{name:"Three of Wands",emoji:"🚢",keyword:"Expansion",upright:"Progress, expansion, foresight",reversed:"Obstacles, frustration",love:"Long-distance love possibility",career:"International opportunities",yesNo:"yes",short:"Broader horizons await."},{name:"Four of Wands",emoji:"🎉",keyword:"Celebration",upright:"Celebration, harmony, homecoming",reversed:"Personal celebration, transition",love:"Engagement, happy home",career:"Work milestone celebration",yesNo:"yes",short:"Time to celebrate!"},{name:"Five of Wands",emoji:"🤺",keyword:"Conflict",upright:"Conflict, competition, tension",reversed:"Conflict avoidance, release",love:"Arguments, power struggles",career:"Workplace competition",yesNo:"no",short:"Stand your ground wisely."},{name:"Six of Wands",emoji:"🏆",keyword:"Victory",upright:"Success, recognition, confidence",reversed:"Fall from grace, egotism",love:"Admired by partner",career:"Promotion, public praise",yesNo:"yes",short:"Public recognition is yours!"},{name:"Seven of Wands",emoji:"🛡️",keyword:"Defense",upright:"Challenge, protection, perseverance",reversed:"Exhaustion, giving up",love:"Defending your relationship",career:"Protecting your position",yesNo:"maybe",short:"Defend what matters to you."},{name:"Eight of Wands",emoji:"✈️",keyword:"Speed",upright:"Movement, fast change, action",reversed:"Delays, waiting",love:"Fast-moving romance",career:"Rapid progress, travel",yesNo:"yes",short:"Things accelerate rapidly."},{name:"Nine of Wands",emoji:"💪",keyword:"Resilience",upright:"Resilience, persistence, test of faith",reversed:"Overwhelm, giving up",love:"Persevering through tough times",career:"Final push needed",yesNo:"maybe",short:"One more push to success."},{name:"Ten of Wands",emoji:"😰",keyword:"Burden",upright:"Burden, responsibility, hard work",reversed:"Doing it all, collapse",love:"Overwhelmed in relationship",career:"Overworked, need to delegate",yesNo:"no",short:"Lighten your load."},{name:"Page of Wands",emoji:"🌱",keyword:"Adventure",upright:"Inspiration, discovery, potential",reversed:"Procrastination, distraction",love:"New romantic interest",career:"Exciting project proposal",yesNo:"yes",short:"An exciting opportunity sparks curiosity."},{name:"Knight of Wands",emoji:"🏇",keyword:"Action",upright:"Energy, passion, adventure",reversed:"Haste, scattered energy",love:"Passionate but impulsive",career:"Bold career action",yesNo:"yes",short:"Charge forward with passion!"},{name:"Queen of Wands",emoji:"🌻",keyword:"Confidence",upright:"Courage, confidence, independence",reversed:"Self-confidence rebuilding",love:"Confident, attractive partner",career:"Business leadership success",yesNo:"yes",short:"Own your power."},{name:"King of Wands",emoji:"🦅",keyword:"Leadership",upright:"Leader, vision, entrepreneur",reversed:"Impulsiveness, high expectations",love:"Charismatic partner",career:"Visionary leadership",yesNo:"yes",short:"Lead with vision."},
+{name:"Ace of Cups",emoji:"💝",keyword:"New Love",upright:"Love, new relationships, compassion",reversed:"Self-love, repressed emotions",love:"New love beginning",career:"Creative inspiration",yesNo:"yes",short:"Love fills your heart."},{name:"Two of Cups",emoji:"🥂",keyword:"Partnership",upright:"Partnership, mutual attraction",reversed:"Break-up, disharmony",love:"Soulmate connection",career:"Business partnership",yesNo:"yes",short:"Beautiful partnership forms."},{name:"Three of Cups",emoji:"🎊",keyword:"Celebration",upright:"Celebration, friendship, creativity",reversed:"Alone time needed",love:"Social love life, joyful",career:"Team celebration",yesNo:"yes",short:"Celebrate with loved ones!"},{name:"Four of Cups",emoji:"😒",keyword:"Apathy",upright:"Contemplation, apathy, reevaluation",reversed:"Withdrawal, checking in",love:"Bored, taking love for granted",career:"Missing opportunities",yesNo:"no",short:"Look up. A new offer waits."},{name:"Five of Cups",emoji:"😢",keyword:"Loss",upright:"Regret, failure, disappointment",reversed:"Self-forgiveness, moving on",love:"Heartbreak, but hope remains",career:"Professional disappointment",yesNo:"no",short:"Grieve, then see what remains."},{name:"Six of Cups",emoji:"🧸",keyword:"Nostalgia",upright:"Childhood memories, innocence",reversed:"Living in the past",love:"Childhood sweetheart, reunion",career:"Past career resurfacing",yesNo:"yes",short:"Sweet memories warm your heart."},{name:"Seven of Cups",emoji:"💭",keyword:"Choices",upright:"Opportunities, fantasy, illusion",reversed:"Overwhelmed by choices",love:"Too many options in love",career:"Multiple opportunities, focus needed",yesNo:"maybe",short:"Choose wisely, not impulsively."},{name:"Eight of Cups",emoji:"🚶",keyword:"Walking Away",upright:"Disappointment, withdrawal",reversed:"Fear of change, drifting",love:"Leaving unfulfilling relationship",career:"Walking away from dead-end job",yesNo:"no",short:"Sometimes walking away is bravest."},{name:"Nine of Cups",emoji:"🌟",keyword:"Wish Fulfilled",upright:"Contentment, satisfaction, wish granted",reversed:"Dissatisfaction, materialism",love:"Dream relationship manifesting",career:"Career wish fulfilled",yesNo:"yes",short:"Your wish is granted!"},{name:"Ten of Cups",emoji:"🌈",keyword:"Happiness",upright:"Divine love, harmony, family",reversed:"Disconnection, misaligned values",love:"Happy family, lasting love",career:"Fulfilling career aligned with values",yesNo:"yes",short:"Emotional fulfillment blesses you."},{name:"Page of Cups",emoji:"🐟",keyword:"Creativity",upright:"Creative opportunities, intuitive messages",reversed:"Emotional immaturity",love:"Sweet romantic gesture",career:"Creative opportunity arrives",yesNo:"yes",short:"A sweet message arrives."},{name:"Knight of Cups",emoji:"🦢",keyword:"Romance",upright:"Romance, charm, imagination",reversed:"Unrealistic, jealousy",love:"Romantic proposal, fairy tale",career:"Following creative passion",yesNo:"yes",short:"Romance approaches gracefully."},{name:"Queen of Cups",emoji:"🐚",keyword:"Intuition",upright:"Compassion, calm, intuition",reversed:"Codependency, self-care needed",love:"Emotionally mature partner",career:"Healing profession, empathy",yesNo:"yes",short:"Deep wisdom guides you."},{name:"King of Cups",emoji:"🌊",keyword:"Balance",upright:"Emotionally balanced, diplomatic",reversed:"Moodiness, manipulation",love:"Wise and stable partner",career:"Diplomatic leadership",yesNo:"yes",short:"Master your emotions."},
+{name:"Ace of Swords",emoji:"🗡️",keyword:"Clarity",upright:"Breakthrough, mental clarity",reversed:"Clouded judgement, re-thinking",love:"Honest conversation needed",career:"Brilliant new idea",yesNo:"yes",short:"Clarity cuts through confusion."},{name:"Two of Swords",emoji:"🤔",keyword:"Decision",upright:"Difficult decisions, stalemate",reversed:"Indecision, confusion",love:"Relationship crossroads",career:"Career decision paralysis",yesNo:"maybe",short:"Weigh your options carefully."},{name:"Three of Swords",emoji:"💔",keyword:"Heartbreak",upright:"Heartbreak, sorrow, grief",reversed:"Recovery, forgiveness",love:"Heartbreak, betrayal",career:"Professional disappointment",yesNo:"no",short:"Pain is real but temporary."},{name:"Four of Swords",emoji:"😴",keyword:"Rest",upright:"Rest, meditation, contemplation",reversed:"Exhaustion, burn-out",love:"Relationship pause needed",career:"Mental health break",yesNo:"maybe",short:"Rest and recover."},{name:"Five of Swords",emoji:"🏳️",keyword:"Conflict",upright:"Conflict, defeat, dishonor",reversed:"Reconciliation, compromise",love:"Power games, dishonesty",career:"Office politics, unfair competition",yesNo:"no",short:"Not every battle is worth fighting."},{name:"Six of Swords",emoji:"⛵",keyword:"Transition",upright:"Transition, releasing baggage",reversed:"Resistance, unfinished business",love:"Moving on from heartbreak",career:"Career transition to better place",yesNo:"yes",short:"Calmer waters ahead."},{name:"Seven of Swords",emoji:"🦊",keyword:"Deception",upright:"Betrayal, deception, sneaky",reversed:"Coming clean, imposter syndrome",love:"Dishonesty, cheating",career:"Intellectual theft, shortcuts",yesNo:"no",short:"Trust your suspicions."},{name:"Eight of Swords",emoji:"😶",keyword:"Trapped",upright:"Imprisonment, self-victimization",reversed:"Freedom, new perspective",love:"Feeling trapped in relationship",career:"Feeling stuck, victim mentality",yesNo:"no",short:"The cage is of your own making."},{name:"Nine of Swords",emoji:"😰",keyword:"Anxiety",upright:"Anxiety, worry, nightmares",reversed:"Releasing worry, inner turmoil",love:"Relationship anxiety",career:"Work stress overwhelming",yesNo:"no",short:"Most fears are worse in your mind."},{name:"Ten of Swords",emoji:"🔚",keyword:"Endings",upright:"Painful endings, betrayal",reversed:"Recovery, regeneration",love:"Relationship ending, healing begins",career:"Job loss, but rebirth coming",yesNo:"no",short:"Rock bottom. Only way is up."},{name:"Page of Swords",emoji:"🔍",keyword:"Curiosity",upright:"New ideas, curiosity, knowledge",reversed:"All talk no action",love:"Intellectually curious energy",career:"Research phase, learning",yesNo:"maybe",short:"Stay curious. Info is incoming."},{name:"Knight of Swords",emoji:"💨",keyword:"Rush",upright:"Ambitious, fast, driven",reversed:"Restless, unfocused, burnout",love:"Fast-moving, impulsive",career:"Aggressive career moves",yesNo:"no",short:"Slow down before acting."},{name:"Queen of Swords",emoji:"❄️",keyword:"Clarity",upright:"Independent, clear boundaries",reversed:"Overly emotional, cold",love:"Clear boundaries needed",career:"Objective decision-making",yesNo:"maybe",short:"Cut through emotion with clarity."},{name:"King of Swords",emoji:"⚔️",keyword:"Authority",upright:"Mental clarity, authority, truth",reversed:"Misuse of power, manipulation",love:"Logical approach to love",career:"Intellectual leadership",yesNo:"yes",short:"Lead with ethical clarity."},
+{name:"Ace of Pentacles",emoji:"💰",keyword:"Opportunity",upright:"New financial opportunity, abundance",reversed:"Lost opportunity, scarcity",love:"New stable relationship",career:"New job offer, business opportunity",yesNo:"yes",short:"Golden opportunity knocks."},{name:"Two of Pentacles",emoji:"⚖️",keyword:"Juggling",upright:"Multiple priorities, adaptability",reversed:"Disorganization, over-committed",love:"Balancing love and life",career:"Juggling multiple projects",yesNo:"maybe",short:"Balance your priorities."},{name:"Three of Pentacles",emoji:"🏗️",keyword:"Teamwork",upright:"Teamwork, collaboration, learning",reversed:"Working alone, disharmony",love:"Building together as team",career:"Collaborative success",yesNo:"yes",short:"Collaboration creates greatness."},{name:"Four of Pentacles",emoji:"🔒",keyword:"Control",upright:"Security, conservatism, scarcity",reversed:"Over-spending, financial insecurity",love:"Possessiveness, controlling",career:"Resisting change, hoarding",yesNo:"no",short:"Holding too tight blocks abundance."},{name:"Five of Pentacles",emoji:"❄️",keyword:"Hardship",upright:"Financial loss, isolation, poverty",reversed:"Recovery, spiritual poverty",love:"Feeling left out in the cold",career:"Financial hardship, but recovery ahead",yesNo:"no",short:"Tough times, but help is near."},{name:"Six of Pentacles",emoji:"🤝",keyword:"Generosity",upright:"Giving, receiving, generosity",reversed:"One-sided, unpaid debts",love:"Generous partner, balanced giving",career:"Pay raise, bonus, mentorship",yesNo:"yes",short:"Give and receive with open heart."},{name:"Seven of Pentacles",emoji:"🌱",keyword:"Patience",upright:"Long-term results, perseverance",reversed:"Impatience, wasted effort",love:"Investing in relationship growth",career:"Waiting for career results",yesNo:"maybe",short:"Seeds are growing. Be patient."},{name:"Eight of Pentacles",emoji:"🔨",keyword:"Mastery",upright:"Skill development, mastery, dedication",reversed:"Perfectionism, misdirected work",love:"Working on relationship skills",career:"Training, skill building",yesNo:"yes",short:"Dedicated practice leads to mastery."},{name:"Nine of Pentacles",emoji:"🍇",keyword:"Luxury",upright:"Abundance, luxury, self-sufficiency",reversed:"Over-investment in work",love:"Independent and self-sufficient",career:"Financial independence achieved",yesNo:"yes",short:"Enjoy what you built!"},{name:"Ten of Pentacles",emoji:"🏰",keyword:"Legacy",upright:"Wealth, family, long-term success",reversed:"Financial failure, loss",love:"Generational love, family happiness",career:"Long-term wealth, retirement",yesNo:"yes",short:"Lasting wealth and legacy."},{name:"Page of Pentacles",emoji:"📚",keyword:"Learning",upright:"Financial opportunity, skill development",reversed:"Procrastination, lack of progress",love:"Grounded new attraction",career:"New study, apprenticeship",yesNo:"yes",short:"A studious opportunity presents itself."},{name:"Knight of Pentacles",emoji:"🐎",keyword:"Dedication",upright:"Hard work, routine, reliability",reversed:"Boredom, laziness, perfectionism",love:"Slow and steady courtship",career:"Methodical, patient approach",yesNo:"yes",short:"Slow and steady wins."},{name:"Queen of Pentacles",emoji:"🌺",keyword:"Nurturing",upright:"Nurturing, practical, providing",reversed:"Self-care, work-home balance",love:"Warm nurturing partner",career:"Business success, generous boss",yesNo:"yes",short:"Nurture abundance in all areas."},{name:"King of Pentacles",emoji:"👔",keyword:"Wealth",upright:"Wealth, leadership, security",reversed:"Obsessed with money, stubborn",love:"Stable provider partner",career:"Business empire, top leadership",yesNo:"yes",short:"Material success is yours."}];
+
+let spreadCount = 1;
+let drawn = false;
+
+function setSpread(n) {
+  spreadCount = n;
+  document.querySelectorAll('.spread-select button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  resetReading();
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function drawCards() {
+  if (drawn) return;
+  drawn = true;
+
+  const shuffled = shuffleArray(CARDS);
+  const selected = shuffled.slice(0, spreadCount);
+  const container = document.getElementById('cardContainer');
+  container.innerHTML = '';
+
+  selected.forEach((card, i) => {
+    const el = document.createElement('div');
+    el.className = 'reading-card';
+    el.innerHTML = `
+      <div class="inner">
+        <div class="front">
+          <div class="num">${i + 1}</div>
+          <div class="label">Tap to reveal</div>
+        </div>
+        <div class="back">
+          <div class="emoji">${card.emoji}</div>
+          <div class="name">${card.name}</div>
+          <div class="keyword">${card.keyword}</div>
+          <span class="answer-badge ${card.yesNo}">${card.yesNo.toUpperCase()}</span>
+        </div>
+      </div>`;
+    container.appendChild(el);
+
+    setTimeout(() => el.classList.add('flipped'), 300 + i * 400);
+  });
+
+  setTimeout(() => {
+    showResults(selected);
+  }, 300 + spreadCount * 400 + 500);
+
+  document.getElementById('drawBtn').style.display = 'none';
+}
+
+function showResults(cards) {
+  const area = document.getElementById('resultArea');
+  const content = document.getElementById('resultContent');
+
+  // Majority vote for 3-card spread
+  let finalAnswer = cards[0].yesNo;
+  if (cards.length === 3) {
+    const yes = cards.filter(c => c.yesNo === 'yes').length;
+    const no = cards.filter(c => c.yesNo === 'no').length;
+    if (yes >= 2) finalAnswer = 'yes';
+    else if (no >= 2) finalAnswer = 'no';
+    else finalAnswer = 'maybe';
+  }
+
+  let html = `<div style="margin-bottom:15px"><span class="answer-badge ${finalAnswer}" style="font-size:1.1em;padding:8px 24px">Answer: ${finalAnswer.toUpperCase()}</span></div>`;
+
+  cards.forEach(card => {
+    html += `
+      <div class="result-box">
+        <h3>${card.emoji} ${card.name} — ${card.keyword}</h3>
+        <p>${card.short}</p>
+        <div class="result-grid" style="margin-top:10px">
+          <div><strong style="color:#a78bfa">Upright:</strong> <span style="color:#ccc">${card.upright}</span></div>
+          <div><strong style="color:#a78bfa">Reversed:</strong> <span style="color:#ccc">${card.reversed}</span></div>
+          <div><strong style="color:#a78bfa">Love:</strong> <span style="color:#ccc">${card.love}</span></div>
+          <div><strong style="color:#a78bfa">Career:</strong> <span style="color:#ccc">${card.career}</span></div>
+        </div>
+      </div>`;
+  });
+
+  content.innerHTML = html;
+  area.classList.add('visible');
+}
+
+function resetReading() {
+  drawn = false;
+  document.getElementById('cardContainer').innerHTML = '';
+  document.getElementById('resultArea').classList.remove('visible');
+  document.getElementById('drawBtn').style.display = '';
+  document.getElementById('question').value = '';
+  document.getElementById('question').focus();
+}
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Free Yes or No Tarot Reading",
+    "url": "https://gokimedia.github.io/tarot-reading/",
+    "description": "Free online yes or no tarot reading tool with all 78 card meanings",
+    "applicationCategory": "Entertainment",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Deckaura",
+      "url": "https://deckaura.com"
+    }
+  }
+  </script>
+</body>
+</html>
