@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Daily Tarot Card Widget | Deckaura</title>
+<meta name="description" content="Free embeddable daily tarot card widget for your website. Works on WordPress, Shopify, Wix, Squarespace, and any HTML site.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;background:transparent;display:flex;justify-content:center}
+.dw{background:linear-gradient(145deg,#0f0c28,#1a1545);border-radius:16px;padding:24px;max-width:320px;width:100%;color:#e8e0d0;text-align:center;border:1px solid #c9a84c33}
+.dw h3{color:#c9a84c;font-size:1.1em;margin:0 0 12px;letter-spacing:1px}
+.dw-card{background:linear-gradient(145deg,#1a1545,#252060);border:2px solid #c9a84c;border-radius:12px;padding:20px 16px;margin:12px 0;cursor:pointer;transition:transform 0.3s}
+.dw-card:hover{transform:scale(1.02);box-shadow:0 0 20px #c9a84c33}
+.dw-card.revealed .dw-prompt{display:none}
+.dw-prompt{color:#c9a84c;font-size:2.5em;margin:10px 0}
+.dw-prompt-text{color:#8880aa;font-size:0.8em;letter-spacing:2px}
+.dw-name{color:#c9a84c;font-size:1.2em;font-weight:bold;margin:8px 0 4px}
+.dw-arcana{color:#8880aa;font-size:0.75em;margin-bottom:10px}
+.dw-section{text-align:left;margin:8px 0}
+.dw-label{color:#c9a84c;font-size:0.7em;font-weight:bold;letter-spacing:1px;text-transform:uppercase}
+.dw-text{color:#ccc8e0;font-size:0.82em;line-height:1.5;margin:3px 0 8px}
+.dw-yn{display:inline-block;background:#c9a84c22;border:1px solid #c9a84c44;border-radius:20px;padding:4px 14px;font-size:0.75em;color:#c9a84c;margin:6px 0}
+.dw-btn{display:inline-block;background:linear-gradient(to right,#c9a84c,#a8872e);color:#0f0c28;border:none;padding:10px 24px;border-radius:30px;font-family:Georgia;font-size:0.85em;font-weight:bold;cursor:pointer;margin:10px 0 6px;transition:transform 0.2s}
+.dw-btn:hover{transform:scale(1.05)}
+.dw-link{color:#8880aa;font-size:0.7em;text-decoration:none;display:block;margin-top:6px}
+.dw-link:hover{color:#c9a84c}
+.dw-footer{margin-top:10px;padding-top:10px;border-top:1px solid #c9a84c22}
+.dw-footer a{color:#c9a84c;text-decoration:none;font-size:0.72em}
+.dw-result{display:none}
+.dw-card.revealed .dw-result{display:block}
+</style>
+</head>
+<body>
+<div class="dw" id="dw">
+<h3>Daily Tarot Card</h3>
+<div class="dw-card" id="dwCard" onclick="dwDraw()">
+<div class="dw-prompt">&#10022;</div>
+<div class="dw-prompt-text">TAP TO REVEAL</div>
+<div class="dw-result" id="dwResult"></div>
+</div>
+<button class="dw-btn" onclick="dwDraw()">Draw Another Card</button>
+<div class="dw-footer">
+<a href="https://deckaura.com/pages/free-tarot-reading" target="_blank" rel="noopener">Full Reading</a> &middot;
+<a href="https://deckaura.com/pages/tarot-birth-card-calculator" target="_blank" rel="noopener">Birth Card</a> &middot;
+<a href="https://deckaura.com/blogs/guide/tarot-card-meanings" target="_blank" rel="noopener">All 78 Cards</a>
+<br>
+<a href="https://deckaura.com" target="_blank" rel="noopener" style="color:#c9a84c;font-size:0.8em;margin-top:6px;display:inline-block">Powered by Deckaura</a>
+</div>
+</div>
+<script>
+var C=[
+{n:"The Fool",a:"Major Arcana",u:"New beginnings, innocence, adventure",r:"Recklessness, fear of change",l:"Exciting new romance",yn:"Yes",s:"fool"},
+{n:"The Magician",a:"Major Arcana",u:"Manifestation, willpower, resourcefulness",r:"Manipulation, poor planning",l:"Magnetic attraction",yn:"Yes",s:"magician"},
+{n:"The High Priestess",a:"Major Arcana",u:"Intuition, mystery, inner wisdom",r:"Secrets, disconnection",l:"Hidden feelings, trust instincts",yn:"Yes",s:"high-priestess"},
+{n:"The Empress",a:"Major Arcana",u:"Abundance, nurturing, fertility",r:"Insecurity, neglect",l:"Deep sensual love",yn:"Yes",s:"empress"},
+{n:"The Emperor",a:"Major Arcana",u:"Authority, structure, leadership",r:"Domination, rigidity",l:"Stable committed partnership",yn:"Yes",s:"emperor"},
+{n:"The Hierophant",a:"Major Arcana",u:"Tradition, spiritual guidance",r:"Rebellion, unconventional path",l:"Traditional relationship, marriage",yn:"Yes",s:"hierophant"},
+{n:"The Lovers",a:"Major Arcana",u:"Love, choices, partnerships",r:"Disharmony, misaligned values",l:"Soulmate connection",yn:"Yes",s:"lovers"},
+{n:"The Chariot",a:"Major Arcana",u:"Determination, willpower, triumph",r:"No direction, scattered energy",l:"Fast-moving romance",yn:"Yes",s:"chariot"},
+{n:"Strength",a:"Major Arcana",u:"Courage, patience, inner power",r:"Self-doubt, weakness",l:"Patient, gentle love",yn:"Yes",s:"strength"},
+{n:"The Hermit",a:"Major Arcana",u:"Introspection, solitude, wisdom",r:"Isolation, loneliness",l:"Need for self-discovery first",yn:"Maybe",s:"hermit"},
+{n:"Wheel of Fortune",a:"Major Arcana",u:"Cycles, destiny, turning points",r:"Bad luck, resistance to change",l:"Fated romance",yn:"Yes",s:"wheel-of-fortune"},
+{n:"Justice",a:"Major Arcana",u:"Fairness, truth, accountability",r:"Unfairness, dishonesty",l:"Balanced partnership",yn:"Yes",s:"justice"},
+{n:"The Hanged Man",a:"Major Arcana",u:"Surrender, new perspective",r:"Stalling, resistance",l:"Seeing love differently",yn:"Maybe",s:"hanged-man"},
+{n:"Death",a:"Major Arcana",u:"Transformation, endings, rebirth",r:"Resistance to change",l:"Relationship transformation",yn:"Maybe",s:"death"},
+{n:"Temperance",a:"Major Arcana",u:"Balance, patience, moderation",r:"Excess, imbalance",l:"Harmonious soul connection",yn:"Yes",s:"temperance"},
+{n:"The Devil",a:"Major Arcana",u:"Shadow self, addiction, bondage",r:"Breaking free, reclaiming power",l:"Intense passion, possible obsession",yn:"No",s:"devil"},
+{n:"The Tower",a:"Major Arcana",u:"Sudden change, upheaval, revelation",r:"Avoiding disaster",l:"Relationship shakeup",yn:"No",s:"tower"},
+{n:"The Star",a:"Major Arcana",u:"Hope, renewal, spirituality",r:"Despair, lack of faith",l:"Healing love, renewed hope",yn:"Yes",s:"star"},
+{n:"The Moon",a:"Major Arcana",u:"Illusion, fear, subconscious",r:"Release of fear, clarity",l:"Confusion in love",yn:"Maybe",s:"moon"},
+{n:"The Sun",a:"Major Arcana",u:"Joy, success, vitality",r:"Temporary sadness",l:"Happy, joyful relationship",yn:"Yes",s:"sun"},
+{n:"Judgement",a:"Major Arcana",u:"Rebirth, reflection, calling",r:"Self-doubt, refusal to grow",l:"Second chances in love",yn:"Yes",s:"judgement"},
+{n:"The World",a:"Major Arcana",u:"Completion, accomplishment",r:"Incompletion, delays",l:"Fulfilled, whole love",yn:"Yes",s:"world"}
+];
+function dwDraw(){
+var c=C[Math.floor(Math.random()*C.length)],rv=Math.random()>0.75,el=document.getElementById("dwCard");
+el.classList.add("revealed");
+document.getElementById("dwResult").innerHTML='<div class="dw-name">'+c.n+(rv?" (Reversed)":"")+'</div><div class="dw-arcana">'+c.a+'</div><div class="dw-section"><div class="dw-label">'+(rv?"Reversed":"Upright")+'</div><div class="dw-text">'+(rv?c.r:c.u)+'</div></div><div class="dw-section"><div class="dw-label">Love</div><div class="dw-text">'+c.l+'</div></div><div class="dw-yn">Yes/No: '+c.yn+'</div><br><a class="dw-link" href="https://deckaura.com/blogs/guide/'+c.s+'-tarot-meaning" target="_blank" rel="noopener">Read full '+c.n+' guide &rarr;</a>';
+}
+</script>
+</body>
+</html>
