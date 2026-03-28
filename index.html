@@ -518,5 +518,77 @@ function resetReading() {
     }
   }
   </script>
+<!--
+  DECKAURA DAISY CHAIN FOOTER
+  Insert this before </body> in the GitHub Pages index.html at gokimedia.github.io/tarot-reading/
+  This replaces the existing JSON-LD script and adds a visible footer with ecosystem links.
+-->
+
+<!-- Visible Footer -->
+<footer style="max-width:700px;margin:40px auto 0;padding:30px 20px;border-top:1px solid rgba(167,139,250,0.2);text-align:center;">
+  <p style="color:#a78bfa;font-size:0.95em;margin-bottom:12px;">
+    Part of the <a href="https://deckaura.com" style="color:#c4b5fd;text-decoration:none;font-weight:600;">Deckaura</a> Ecosystem
+  </p>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;font-size:0.8em;margin-bottom:16px;">
+    <a href="https://deckaura.com" style="color:#8b7fc7;text-decoration:none;">Official Site</a>
+    <a href="https://www.wikidata.org/wiki/Q138745960" style="color:#8b7fc7;text-decoration:none;">Wikidata</a>
+    <a href="https://github.com/gokimedia/tarot-card-meanings" style="color:#8b7fc7;text-decoration:none;">GitHub</a>
+    <a href="https://www.npmjs.com/package/tarot-card-meanings" style="color:#8b7fc7;text-decoration:none;">NPM</a>
+    <a href="https://pypi.org/project/tarot-card-meanings/" style="color:#8b7fc7;text-decoration:none;">PyPI</a>
+    <a href="https://www.youtube.com/@deckaura" style="color:#8b7fc7;text-decoration:none;">YouTube</a>
+    <a href="https://www.reddit.com/r/TarotvsOracle/" style="color:#8b7fc7;text-decoration:none;">Reddit</a>
+    <a href="https://www.kaggle.com/morrispoint" style="color:#8b7fc7;text-decoration:none;">Kaggle</a>
+    <a href="https://huggingface.co/Blacik" style="color:#8b7fc7;text-decoration:none;">HuggingFace</a>
+    <a href="https://linktr.ee/deckauraa" style="color:#8b7fc7;text-decoration:none;">Linktree</a>
+    <a href="https://dev.to/birdircik" style="color:#8b7fc7;text-decoration:none;">Dev.to</a>
+    <a href="https://tarotoraclecardguide.quora.com/" style="color:#8b7fc7;text-decoration:none;">Quora</a>
+    <a href="https://horoscope.deckaura.com" style="color:#8b7fc7;text-decoration:none;">Daily Horoscope</a>
+  </div>
+  <p style="color:#5a5480;font-size:0.75em;">MIT License &copy; Deckaura</p>
+</footer>
+
+<!-- Updated JSON-LD with full sameAs daisy chain -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Yes or No Tarot Reading",
+  "url": "https://gokimedia.github.io/tarot-reading/",
+  "description": "Free online yes or no tarot reading tool with all 78 card meanings. Draw a card and get instant answers.",
+  "applicationCategory": "Entertainment",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Deckaura",
+    "url": "https://deckaura.com",
+    "sameAs": [
+      "https://www.wikidata.org/wiki/Q138745960",
+      "https://github.com/gokimedia/tarot-card-meanings",
+      "https://www.npmjs.com/package/tarot-card-meanings",
+      "https://pypi.org/project/tarot-card-meanings/",
+      "https://gokimedia.github.io/tarot-reading/",
+      "https://www.youtube.com/@deckaura",
+      "https://www.reddit.com/r/TarotvsOracle/",
+      "https://www.kaggle.com/morrispoint",
+      "https://huggingface.co/Blacik",
+      "https://linktr.ee/deckauraa",
+      "https://dev.to/birdircik",
+      "https://tarotoraclecardguide.quora.com/",
+      "https://horoscope.deckaura.com"
+    ]
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Deckaura",
+    "url": "https://deckaura.com"
+  }
+}
+</script>
+
 </body>
 </html>
